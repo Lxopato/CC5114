@@ -86,13 +86,21 @@ class NeuralNetwork:
     def update_weights(self, inputs, learning_rate=0.1):
         for i in range(len(self.layers)):
             lel = inputs
-            if i!=0:
-                lel = [neuron.output for neuron in self.layers[i-1].neurons]
+            if i != 0:
+                lel = [neuron.output for neuron in self.laers[i-1].neurons]
             for neuron in self.layers[i].neurons:
                 for j in range(len(lel)):
                     neuron.weights[j] += learning_rate*neuron.delta*lel[j]
                 neuron.weights[-1] += learning_rate*neuron.delta
 
-
-
+    def train(self, test_set, expected, n_epoch):
+        for epoch in range(n_epoch):
+            sum_error = 0
+            i = 0
+            for item in test_set:
+                outputs = self.forward_propagate(item)
+                sum_error += sum([(expected[i][j] - outputs[j]) ** 2 for j in range(len(expected[i]))])
+                self.back_propagate_error(expected[i])
+                self.update_weights(item)
+            print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.01, sum_error))
 
