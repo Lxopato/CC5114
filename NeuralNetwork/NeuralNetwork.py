@@ -87,7 +87,7 @@ class NeuralNetwork:
         for i in range(len(self.layers)):
             lel = inputs
             if i != 0:
-                lel = [neuron.output for neuron in self.laers[i-1].neurons]
+                lel = [neuron.output for neuron in self.layers[i-1].neurons]
             for neuron in self.layers[i].neurons:
                 for j in range(len(lel)):
                     neuron.weights[j] += learning_rate*neuron.delta*lel[j]
