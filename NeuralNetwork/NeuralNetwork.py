@@ -103,4 +103,3 @@ class NeuralNetwork:
                 self.back_propagate_error(expected[i])
                 self.update_weights(item)
             print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.01, sum_error))
-
