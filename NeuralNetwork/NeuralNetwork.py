@@ -8,9 +8,10 @@ class Neuron:
 
     def __init__(self, n_inputs):
         self.n_inputs = n_inputs
-        self.set_weights([random.uniform(0,1) for x in range(0, n_inputs+1)]) # +1 for Bias value
+        self.set_weights([random.uniform(0,1) for _ in range(0, n_inputs+1)]) # +1 for Bias value
         self.output = 0
         self.delta = 0
+
 
     def set_weights(self, weights):
         self.weights = weights
@@ -38,9 +39,13 @@ class NeuralNetwork:
         self._n_weights = None
 
     def initialize_network(self):
-        self.layers = [NeuralLayer(self.n_neurons_in_layers, self.n_inputs)] # First Hidden Layer
-        self.layers += [NeuralLayer(self.n_neurons_in_layers, self.n_neurons_in_layers) for _ in range(0, self.n_hiddenlayers)] # Other Hidden Layers
-        self.layers += [NeuralLayer(self.n_outputs,self.n_neurons_in_layers)] # Output Layer
+        if self.n_hiddenlayers>0:
+            self.layers = [NeuralLayer(self.n_neurons_in_layers, self.n_inputs)] # First Hidden Layer
+            self.layers += [NeuralLayer(self.n_neurons_in_layers, self.n_neurons_in_layers) for _ in range(0, self.n_hiddenlayers)] # Other Hidden Layers
+            self.layers += [NeuralLayer(self.n_outputs,self.n_neurons_in_layers)] # Output Layer
+        else:
+            # If we don't require hidden layers
+            self.layers = [NeuralLayer(self.n_outputs, self.n_inputs)]
 
     def n_weights(self):
         if not self._n_weights:
@@ -49,6 +54,15 @@ class NeuralNetwork:
                 for neuron in layer.neurons:
                     self._n_weights += neuron.n_inputs + 1
         return self._n_weights
+
+    def get_weights(self):
+        weights = []
+
+        for layer in self.layers:
+            for neuron in layer.neurons:
+                weights += neuron.weights
+
+        return weights
 
     def sigmoid(self, activation):
         return 1/(1+math.e**(-activation))
@@ -103,3 +117,17 @@ class NeuralNetwork:
                 self.back_propagate_error(expected[i])
                 self.update_weights(item)
             print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.01, sum_error))
+
+
+network= NeuralNetwork(2,0,1,1)
+print(network.get_weights())
+print(network.forward_propagate([0,1]))
+print(network.forward_propagate([1,1]))
+set=[[0,0],[0,1],[1,0],[1,1]]
+expected=[[0],[1],[1],[1]]
+n_epoch=500
+network.train(set,expected,n_epoch)
+
+print(network.forward_propagate([0,1]))
+print(network.forward_propagate([1,1]))
+
