@@ -1,7 +1,7 @@
 import random
 import math
 
-BIAS = -1  # Can be modified
+
 
 
 class Neuron:
@@ -44,7 +44,6 @@ class NeuralNetwork:
             self.layers += [NeuralLayer(self.n_neurons_in_layers, self.n_neurons_in_layers) for _ in range(0, self.n_hiddenlayers)] # Other Hidden Layers
             self.layers += [NeuralLayer(self.n_outputs,self.n_neurons_in_layers)] # Output Layer
         else:
-            # If we don't require hidden layers
             self.layers = [NeuralLayer(self.n_outputs, self.n_inputs)]
 
     def n_weights(self):
@@ -64,6 +63,15 @@ class NeuralNetwork:
 
         return weights
 
+    def get_outputs(self):
+        outputs = []
+
+        for layer in self.layers:
+            for neuron in layer.neurons:
+                outputs.append(neuron.output)
+
+        return outputs
+
     def sigmoid(self, activation):
         return 1/(1+math.e**(-activation))
 
@@ -71,12 +79,13 @@ class NeuralNetwork:
         for layer in self.layers:
             outputs = []
             for neuron in layer.neurons:
-                total = neuron.sum(inputs)+neuron.weights[-1]*BIAS
+                total = neuron.sum(inputs)-neuron.weights[-1]
                 neuron.output = self.sigmoid(total)
                 outputs.append(neuron.output)
             inputs = outputs
         return outputs
 
+    #TODO: FIX THIS!!!!!
     def back_propagate_error(self,expected):
         for i in reversed(range(len(self.layers))):
             layer = self.layers[i]
@@ -96,8 +105,8 @@ class NeuralNetwork:
             for j in range(len(layer.neurons)):
                 neuron = layer.neurons[j]
                 neuron.delta = errors[j]*(neuron.output - (1.0 - neuron.output))
-
-    def update_weights(self, inputs, learning_rate=0.1):
+    #TODO: FIX THIS!!!!!!
+    def update_weights(self, inputs, learning_rate=0.5):
         for i in range(len(self.layers)):
             lel = inputs
             if i != 0:
@@ -107,6 +116,7 @@ class NeuralNetwork:
                     neuron.weights[j] += learning_rate*neuron.delta*lel[j]
                 neuron.weights[-1] += learning_rate*neuron.delta
 
+    #TODO: FIX THIS!!!!!!
     def train(self, test_set, expected, n_epoch):
         for epoch in range(n_epoch):
             sum_error = 0
@@ -117,17 +127,4 @@ class NeuralNetwork:
                 self.back_propagate_error(expected[i])
                 self.update_weights(item)
             print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.01, sum_error))
-
-
-network= NeuralNetwork(2,0,1,1)
-print(network.get_weights())
-print(network.forward_propagate([0,1]))
-print(network.forward_propagate([1,1]))
-set=[[0,0],[0,1],[1,0],[1,1]]
-expected=[[0],[1],[1],[1]]
-n_epoch=500
-network.train(set,expected,n_epoch)
-
-print(network.forward_propagate([0,1]))
-print(network.forward_propagate([1,1]))
 
