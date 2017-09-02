@@ -111,17 +111,3 @@ class NeuralNetwork:
                 self.update_weights(item)
                 j+=1
         print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.1, sum_error))
-
-
-
-network = NeuralNetwork(2,1,2,1)
-aset = [[0,0],[0,1],[1,0],[1,1]]
-expected = [[0],[1],[1],[0]]
-
-
-network.train(aset,expected,300000)
-
-print(network.forward_propagate([0,0]))
-print(network.forward_propagate([0,1]))
-print(network.forward_propagate([1,0]))
-print(network.forward_propagate([1,1]))
