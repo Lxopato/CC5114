@@ -87,7 +87,7 @@ class NeuralNetwork:
                 neuron = layer.neurons[j]
                 neuron.delta = errors[j]*(neuron.output*(1.0 - neuron.output))
 
-    def update_weights(self, inputs, learning_rate=0.1):
+    def update_weights(self, inputs, learning_rate):
         lel = inputs
         for i in range(len(self.layers)):
             if i != 0:
@@ -100,7 +100,7 @@ class NeuralNetwork:
                     neuron.weights[j]+= learning_rate*neuron.delta*lel[j]
                 neuron.weights[-1]-= learning_rate*neuron.delta
 
-    def train(self, test_set, expected_set,n_epoch):
+    def train(self, test_set, expected_set,n_epoch,learning_rate):
         for epoch in range(n_epoch):
             sum_error = 0
             j = 0
@@ -108,6 +108,6 @@ class NeuralNetwork:
                 noutputs = self.forward_propagate(item)
                 sum_error += sum([(expected_set[j][i]-noutputs[i])**2 for i in range(len(expected_set[j]))])
                 self.back_propagate_error(expected_set[j])
-                self.update_weights(item)
+                self.update_weights(item,learning_rate)
                 j+=1
-        print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, 0.1, sum_error))
+        print('>epoch=%d, lrate=%.3f , error=%.3f' % (epoch, learning_rate, sum_error))

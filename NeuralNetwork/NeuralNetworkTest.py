@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
         set =[[0,0],[0,1],[1,0],[1,1]]
         expected = [[0],[0],[0],[1]]
         n_epoch = 300000
-        network.train(set,expected,n_epoch)
+        network.train(set,expected,n_epoch,0.1)
         self.assertEqual(np.around(network.forward_propagate([0, 0])), [0])
         self.assertEqual(np.around(network.forward_propagate([0, 1])), [0])
         self.assertEqual(np.around(network.forward_propagate([1, 0])), [0])
@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
         set = [[0, 0], [0, 1], [1, 0], [1, 1]]
         expected = [[0], [1], [1], [1]]
         n_epoch = 300000
-        network.train(set, expected, n_epoch)
+        network.train(set, expected, n_epoch,0.1)
         self.assertEqual(np.around(network.forward_propagate([0, 0])), [0])
         self.assertEqual(np.around(network.forward_propagate([0, 1])), [1])
         self.assertEqual(np.around(network.forward_propagate([1, 0])), [1])
@@ -32,7 +32,7 @@ class MyTestCase(unittest.TestCase):
         set = [[0, 0], [0, 1], [1, 0], [1, 1]]
         expected = [[0], [1], [1], [0]]
         n_epoch = 300000
-        network.train(set, expected, n_epoch)
+        network.train(set, expected, n_epoch,0.1)
         self.assertEqual(np.around(network.forward_propagate([0, 0])), [0])
         self.assertEqual(np.around(network.forward_propagate([0, 1])), [1])
         self.assertEqual(np.around(network.forward_propagate([1, 0])), [1])

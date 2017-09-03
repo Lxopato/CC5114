@@ -10,7 +10,6 @@ class CSVparser:
     def get_file(self):
         with open(self.file,'r') as f:
             self.reader = [row for row in csv.reader(f, delimiter=",")]
-            return self.reader
 
     def get_data(self):
         data=[]
