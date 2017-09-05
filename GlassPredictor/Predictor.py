@@ -18,7 +18,7 @@ glasses = CSVparser('data.csv')
 data = normalizer.normalize_data(glasses.get_data())
 expected_binary = normalizer.data_to_binary_array(glasses.get_results())
 '''
-
+VARIABLES PARA LA EJECUCIÓN DEL TEST, ESTAS PUEDEN SER MODIFICADAS 
 '''
 n_epoch= 10000 # Número base de epochs, se recomienda no usar más de 10.000 ya que con una base de 100.000 el test puede tardar horas
 learning_rate = 0.3 #Learning Rate para la red
