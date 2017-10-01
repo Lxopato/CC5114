@@ -23,7 +23,7 @@ VARIABLES PARA LA EJECUCIÓN DEL TEST, ESTAS PUEDEN SER MODIFICADAS
 n_epoch= 10000 # Número base de epochs, se recomienda no usar más de 10.000 ya que con una base de 100.000 el test puede tardar horas
 learning_rate = 0.3 #Learning Rate para la red
 n_inputs = 9 #Número de inputs de la red
-n_hidden_layers= 1 # Número de Hidden Layers de la red
+n_hidden_layers= 2 # Número de Hidden Layers de la red
 n_neurons_in_hidden = 9 # Número de neuronas en las Hidden Layers, debe ser un número
 n_outputs = 7 # Número de neuronas en el output layer
 
