@@ -1,18 +1,32 @@
-import gym
-import numpy as np
+import pygame
+import random
 
-def main():
-    env = gym.make("Pong-v0")
-    obs = env.reset()
 
-    batch_size = 10
-    gamma = 0.99
-    decay_rate = 0.99
-    n_hlayer = 200
-    input = 80*80
-    l_rate = 0.01
+FPS = 60
 
-    weights = {
-        '1': np.random.randn(n_hlayer,input)/np.sqrt(input),
-        '2': np.random.randn(n_hlayer)/np.sqrt(n_hlayer)
-    }
+#Window Size
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 600
+
+#Paddle Size
+PADDLE_WIDTH = 10
+PADDLE_HEIGHT = 80
+
+#Ball Size
+BALL_WIDTH = 15
+BALL_HEIGHT = 15
+
+#Speed of paddle and ball
+PADDLE_SPEED = 2
+BALL_X_SPEED = 3
+BALL_Y_SPEED = 2
+
+#Colors
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+
+screen = pygame.display.set_mode(WINDOW_WIDTH,WINDOW_HEIGHT)
+
+def drawBall(x,y):
+    ball = pygame.rect(x,y,BALL_WIDTH,BALL_HEIGHT)
+    pygame.draw.rect(screen,WHITE,ball)
