@@ -55,21 +55,21 @@ def updateBallPos(PaddleYPos,OpponentYPos,BallXPos,BallYPos,BallXDir,BallYDir):
         BallXDir = 1
     elif (BallXPos <= 0):
         BallXDir = 1
-        score =-1
-        return [score , PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
+        score = -1
+        return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
     if (BallXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFER and OpponentYPos <= BallYPos + BALL_HEIGHT and OpponentYPos + PADDLE_HEIGHT >= BallYPos -BALL_HEIGHT):
         BallXDir = -1
     elif(BallXPos >= WINDOW_WIDTH - BALL_WIDTH):
         BallXDir = -1
         score = 1
-        return [score , PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
+        return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
     if (BallYPos <= 0):
-        ballYPos =0
+        BallYPos = 0
         BallYDir = 1
     elif (BallYPos >WINDOW_HEIGHT - BALL_HEIGHT):
         BallYPos = WINDOW_HEIGHT - BALL_HEIGHT
         BallYDir = -1
 
-    return [score , PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
+    return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
