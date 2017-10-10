@@ -5,8 +5,8 @@ import random
 FPS = 60
 
 #Window Size
-WINDOW_WIDTH = 400
-WINDOW_HEIGHT = 400
+WINDOW_WIDTH = 480
+WINDOW_HEIGHT = 480
 
 #Paddle Size
 PADDLE_WIDTH = 10
@@ -17,17 +17,25 @@ BALL_WIDTH = 10
 BALL_HEIGHT = 10
 
 #Distance from window's edge
-PADDLE_BUFFER = 10
+PADDLE_BUFFERX = 10
+PADDLE_BUFFERY = 40
 
 #Speed of paddle and ball
 PADDLE_SPEED = 2
 BALL_X_SPEED = 3
-BALL_Y_SPEED = 2
+BALL_Y_SPEED = 3
 
 #Colors
-WHITE = (255,255,255)
-BLACK = (0,0,0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0 ,0)
+RED = (255, 0 , 0)
 
+#Display text in window
+pygame.init()
+TITLE_TEXT = pygame.font.SysFont("monospace", 32)
+SCORE_TEXT = pygame.font.SysFont("monospace", 16)
+
+#Window
 screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 
 
@@ -41,32 +49,32 @@ def updateBallPos(PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYD
     BallYPos += BallYDir * BALL_Y_SPEED
     score = 0
 
-    if (BallXPos <= PADDLE_BUFFER + PADDLE_WIDTH and PaddleYPos <= BallYPos + BALL_HEIGHT and  PaddleYPos + PADDLE_HEIGHT >= BallYPos - BALL_HEIGHT ):
+    if (BallXPos <= PADDLE_BUFFERX + PADDLE_WIDTH and PaddleYPos <= BallYPos + BALL_HEIGHT and  PaddleYPos + PADDLE_HEIGHT >= BallYPos - BALL_HEIGHT ):
         BallXDir = 1
     elif (BallXPos <= 0):
         BallXDir = 1
         score = -1
         return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
-    if (BallXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFER and OpponentYPos <= BallYPos + BALL_HEIGHT and OpponentYPos + PADDLE_HEIGHT >= BallYPos -BALL_HEIGHT):
+    if (BallXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFERX and OpponentYPos <= BallYPos + BALL_HEIGHT and OpponentYPos + PADDLE_HEIGHT >= BallYPos -BALL_HEIGHT):
         BallXDir = -1
     elif(BallXPos >= WINDOW_WIDTH - BALL_WIDTH):
         BallXDir = -1
         score = 1
         return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
-    if (BallYPos <= 0):
-        BallYPos = 0
+    if (BallYPos <= PADDLE_BUFFERY):
+        BallYPos = PADDLE_BUFFERY
         BallYDir = 1
-    elif (BallYPos > WINDOW_HEIGHT - BALL_HEIGHT):
-        BallYPos = WINDOW_HEIGHT - BALL_HEIGHT
+    elif (BallYPos > WINDOW_HEIGHT - BALL_HEIGHT - PADDLE_BUFFERY):
+        BallYPos = WINDOW_HEIGHT - BALL_HEIGHT - PADDLE_BUFFERY
         BallYDir = -1
 
     return [score, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
 
 def drawPaddle(PaddleYPos):
-    paddle = pygame.Rect(PADDLE_BUFFER, PaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
+    paddle = pygame.Rect(PADDLE_BUFFERX, PaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
     pygame.draw.rect(screen, WHITE, paddle)
 
 
@@ -77,17 +85,17 @@ def updatePaddle(action, PaddleYPos):
     if (action[2] ==1):
         PaddleYPos += PADDLE_SPEED
 
-    if (PaddleYPos < 0):
-        PaddleYPos = 0
+    if (PaddleYPos < PADDLE_BUFFERY):
+        PaddleYPos = PADDLE_BUFFERY
 
-    if (PaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
-        PaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
+    if (PaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY):
+        PaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY
 
     return PaddleYPos
 
 
 def drawOpponent(OpponentYPos):
-    paddle = pygame.Rect(WINDOW_WIDTH-PADDLE_BUFFER-PADDLE_WIDTH, OpponentYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
+    paddle = pygame.Rect(WINDOW_WIDTH- PADDLE_BUFFERX -PADDLE_WIDTH, OpponentYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
     pygame.draw.rect(screen, WHITE, paddle)
 
 
@@ -99,13 +107,19 @@ def updateOpponent(OpponentYPos, BallYPos):
     if (OpponentYPos + PADDLE_HEIGHT/2 > BallYPos + BALL_HEIGHT/2):
         OpponentYPos -= PADDLE_SPEED
 
-    if (OpponentYPos < 0):
-        OpponentYPos = 0
+    if (OpponentYPos < PADDLE_BUFFERY):
+        OpponentYPos = PADDLE_BUFFERY
 
-    if (OpponentYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
-        OpponentYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
+    if (OpponentYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY):
+        OpponentYPos = WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY
 
     return OpponentYPos
+def drawText():
+    top = pygame.Rect(0, 0, WINDOW_WIDTH, 40)
+    pygame.draw.rect(screen, RED, top)
+
+    bottom = pygame.Rect(0, 440, WINDOW_WIDTH, 40)
+    pygame.draw.rect(screen, RED, bottom)
 
 class Pong:
     def __init__(self):
@@ -133,21 +147,21 @@ class Pong:
             self.ballXDir = -1
             self.ballYDir = -1
 
-    def getPresentFrame(self):
+    def startGame(self):
         pygame.event.pump()
         screen.fill(BLACK)
 
         drawPaddle(self.paddleYPos)
         drawOpponent(self.opponentYPos)
-        drawBall(self.ballXPos,self.ballYPos)
-
+        drawBall(self.ballXPos, self.ballYPos)
+        drawText()
         data = pygame.surfarray.array3d(pygame.display.get_surface())
 
         pygame.display.flip()
 
         return data
 
-    def getNextFrame(self, action):
+    def getFrameData(self, action):
         pygame.event.pump()
         screen.fill(BLACK)
 
@@ -160,11 +174,16 @@ class Pong:
         [score, self.paddleYPos, self.opponentYPos, self.ballXPos, self.ballYPos, self.ballXDir, self.ballYDir] = updateBallPos(self.paddleYPos, self.opponentYPos , self.ballXPos , self.ballYPos, self.ballXDir, self.ballYDir)
 
         drawBall(self.ballXPos, self.ballYPos)
+        drawText()
 
         data = pygame.surfarray.array3d(pygame.display.get_surface())
 
         pygame.display.flip()
+        scoretext = SCORE_TEXT.render("Delta is {0}".format(self.delta), 1, WHITE)
+        screen.blit(scoretext, (5, 460))
 
+        title = TITLE_TEXT.render("NEURAL PONG", 1, WHITE)
+        screen.blit(title, (5, 10))
         self.delta += score
-        print("Delta is " + str(self.delta))
+
         return [score, data]
