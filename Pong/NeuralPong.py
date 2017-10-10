@@ -75,7 +75,7 @@ def trainNetwork(input, output, session):
 
     session.run(tf.global_variables_initializer())
 
-    frame = 0
+    current_frame = 0
     epsilon = 1.0
 
     # Training
@@ -114,7 +114,7 @@ def trainNetwork(input, output, session):
             queue.popleft()
 
         # Training
-        if frame > OBSERVE:
+        if current_frame > OBSERVE:
             # Get 32 random values from Memory to train
             minibatch = random.sample(queue, 32)
 
@@ -138,9 +138,9 @@ def trainNetwork(input, output, session):
 
         # Update Input Tensor
         inp_t = inp_t1
-        frame += 1
+        current_frame += 1
 
-        print("FRAME", frame, "/ EPSILON", epsilon, "/ ACTION", maxIndex, "/ REWARD", reward_t)
+        print("FRAME", current_frame, "/ EPSILON", epsilon, "/ ACTION", maxIndex, "/ REWARD", reward_t)
 
 
 def main():
