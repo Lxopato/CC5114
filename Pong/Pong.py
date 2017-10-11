@@ -50,24 +50,24 @@ def updateBallPos(PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYD
     BallYPos += BallYDir * BALL_Y_SPEED
     reset = False
 
-    if (BallXPos <= PADDLE_BUFFERX + PADDLE_WIDTH and PaddleYPos <= BallYPos + BALL_HEIGHT and  PaddleYPos + PADDLE_HEIGHT >= BallYPos - BALL_HEIGHT ):
+    if BallXPos <= PADDLE_BUFFERX + PADDLE_WIDTH and PaddleYPos <= BallYPos + BALL_HEIGHT and  PaddleYPos + PADDLE_HEIGHT >= BallYPos - BALL_HEIGHT :
         BallXDir = 1
-    elif (BallXPos <= 0):
+    elif BallXPos <= 0:
         BallXDir = 1
         reset = True
         return [reset, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
-    if (BallXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFERX and OpponentYPos <= BallYPos + BALL_HEIGHT and OpponentYPos + PADDLE_HEIGHT >= BallYPos -BALL_HEIGHT):
+    if BallXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFERX and OpponentYPos <= BallYPos + BALL_HEIGHT and OpponentYPos + PADDLE_HEIGHT >= BallYPos -BALL_HEIGHT:
         BallXDir = -1
-    elif(BallXPos >= WINDOW_WIDTH - BALL_WIDTH):
+    elif BallXPos >= WINDOW_WIDTH - BALL_WIDTH:
         BallXDir = -1
         reset = True
         return [reset, PaddleYPos, OpponentYPos, BallXPos, BallYPos, BallXDir, BallYDir]
 
-    if (BallYPos <= PADDLE_BUFFERY):
+    if BallYPos <= PADDLE_BUFFERY:
         BallYPos = PADDLE_BUFFERY
         BallYDir = 1
-    elif (BallYPos > WINDOW_HEIGHT - BALL_HEIGHT - PADDLE_BUFFERY):
+    elif BallYPos > WINDOW_HEIGHT - BALL_HEIGHT - PADDLE_BUFFERY:
         BallYPos = WINDOW_HEIGHT - BALL_HEIGHT - PADDLE_BUFFERY
         BallYDir = -1
 
@@ -80,16 +80,16 @@ def drawPaddle(PaddleYPos):
 
 
 def updatePaddle(action, PaddleYPos):
-    if (action[1] == 1):
+    if action[1] == 1:
         PaddleYPos -= PADDLE_SPEED
 
-    if (action[2] ==1):
+    if action[2] ==1:
         PaddleYPos += PADDLE_SPEED
 
-    if (PaddleYPos < PADDLE_BUFFERY):
+    if PaddleYPos < PADDLE_BUFFERY:
         PaddleYPos = PADDLE_BUFFERY
 
-    if (PaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY):
+    if PaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY:
         PaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY
 
     return PaddleYPos
@@ -102,18 +102,18 @@ def drawOpponent(OpponentYPos):
 
 def updateOpponent(OpponentYPos, BallYPos):
     mov = [0, 0, 0]
-    if (OpponentYPos + PADDLE_HEIGHT/2 < BallYPos + BALL_HEIGHT/2):
+    if OpponentYPos + PADDLE_HEIGHT/2 < BallYPos + BALL_HEIGHT/2:
         OpponentYPos += PADDLE_SPEED
         mov = [0, 1, 0]
 
-    if (OpponentYPos + PADDLE_HEIGHT/2 > BallYPos + BALL_HEIGHT/2):
+    if OpponentYPos + PADDLE_HEIGHT/2 > BallYPos + BALL_HEIGHT/2:
         OpponentYPos -= PADDLE_SPEED
         mov = [0, 0, 1]
 
-    if (OpponentYPos < PADDLE_BUFFERY):
+    if OpponentYPos < PADDLE_BUFFERY:
         OpponentYPos = PADDLE_BUFFERY
 
-    if (OpponentYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY):
+    if OpponentYPos > WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY:
         OpponentYPos = WINDOW_HEIGHT - PADDLE_HEIGHT - PADDLE_BUFFERY
 
     return OpponentYPos, mov

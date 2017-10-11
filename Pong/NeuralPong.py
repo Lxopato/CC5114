@@ -1,6 +1,11 @@
 from NeuralNetwork.NeuralNetwork import NeuralNetwork as nn
 import Pong
 
+
+#############################
+#FIELDS THAT CAN BE MODIFIED#
+#############################
+
 #NETWORK ARCHITECTURE
 N_INPUTS = 5
 N_HIDDEN_LAYERS = 1
@@ -12,6 +17,9 @@ LEARNING_RATE = 0.05
 N_EPOCH = 1000
 
 
+##############
+#DO NOT TOUCH#
+##############
 def create_network():
     network = nn(N_INPUTS, N_HIDDEN_LAYERS, N_NEURONS_IN_HLAYERS, N_OUTPUTS)
     return network
