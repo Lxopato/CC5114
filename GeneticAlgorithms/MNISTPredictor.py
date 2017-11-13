@@ -7,12 +7,12 @@ from tqdm import tqdm
 ###############################
 
 # NETWORK ARCHITECTURE
-N_NEURONS = [2, 4, 6, 8]  # Possible number of neurons in each layer. MUST BE A LIST OF INTEGERS!!!
+N_NEURONS = [2, 4, 6, 8, 10]  # Possible number of neurons in each layer. MUST BE A LIST OF INTEGERS!!!
 N_LAYERS = [1, 2]  # Possible Number of layers in each network. MUST BE A LIST OF INTEGERS!!!
 
 # POPULATION ATTRIBUTES
 GENERATIONS = 10  # Number of generations
-POPULATION = 5  # Number of networks in each generation.
+POPULATION = 15  # Number of networks in each generation.
 MUTATE_CHANCE = 0.2  # Chance that a random network will be mutated
 RANDOM_SELECT = 0.1  # Chance that a rejected network makes to de next generation
 RETAIN = 0.4  # % of population that remains in each generation
@@ -27,7 +27,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p',
     level=logging.DEBUG,
-    filename='log.txt'
+    filename='results.txt'
 )
 
 
