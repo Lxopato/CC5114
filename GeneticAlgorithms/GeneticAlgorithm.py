@@ -26,6 +26,7 @@ def mutate(parent):
         else newGene
     return ''.join(childGenes)
 
+
 def display(guess):
     fitness = get_fitness(guess)
     print("{0}\t{1}".format(guess, fitness))
