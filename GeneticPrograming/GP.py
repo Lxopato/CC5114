@@ -135,31 +135,6 @@ def crossover(mother, father):
 
     return child
 
-
-def mutation(individual):
-    """
-    Mutates an individual if the chance is correct
-    :param individual: Individual to be mutated
-    :return: mutated individual
-    """
-    chance = random.random()
-    if chance <= MUTATION_RATE:
-        depth = random.randint(0, MAX_DEPTH)
-        random.choice(individual.serialize()).replace(AST.Tree.create_tree(depth))
-
-    return individual
-
-
-def create_new_individual(mother, father):
-    """
-    Creates a new individual from other 2
-    :param mother: First Individual
-    :param father: Second Individual
-    :return: New Individual
-    """
-    return crossover(mother, father)
-
-
 def create_new_population(parents):
     """
     Creates a new population from a previous one
@@ -167,17 +142,17 @@ def create_new_population(parents):
     :return: New population
     """
     i=0
-    new_pop = list()
+    new_pop = []
     while i < len(parents):
-        p1 = parents[i]
-        p2 = parents[i+1]
+        mother = parents[i]
+        father = parents[i+1]
         i += 2
-        new_pop.append(create_new_individual(p1,p2))
+        new_pop.append(crossover(mother, father))
     return new_pop
 
 
 if __name__ == "__main__":
-    best_fit = list()
+    best_fit = []
     population = generate_population(POPULATION, MAX_DEPTH, VALUES)
     fitness, r_fitness = get_fitness(population)
     best = population[fitness.index(max(fitness))]
