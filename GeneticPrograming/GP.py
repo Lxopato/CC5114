@@ -183,7 +183,7 @@ if __name__ == "__main__":
     best = population[fitness.index(max(fitness))]
     for _ in range(GENERATIONS):
         logging.info("                     ")
-        logging.info("Generation %d of %d" % (_, GENERATIONS))
+        logging.info("Generation %d of %d" % (_+1, GENERATIONS))
         best_fit.append(min(r_fitness))
         logging.info("The best result is: %d" % (best.eval()))
         logging.info("The fitness is: %d" % (best_fit[-1]))
