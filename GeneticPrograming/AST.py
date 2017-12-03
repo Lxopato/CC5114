@@ -1,4 +1,5 @@
 from random import choice
+import copy
 
 
 class Node:
@@ -10,11 +11,23 @@ class Node:
     def eval(self):
         pass
 
+    def serialize(self):
+        pass
+
+    def replace(self, node):
+        self.__class__ = node.__class__
+        self.l = node.l
+        self.r = node.r
+        self.val = node.val
+
+    def copy(self):
+        return copy.deepcopy(self)
+
 
 class NumNode(Node):
 
     def __init__(self, val):
-        self.val = val
+        super().__init__(val)
 
     def __str__(self):
         return str(self.val)
@@ -22,35 +35,28 @@ class NumNode(Node):
     def eval(self):
         return self.val
 
+    def serialize(self):
+        return [self]
+
 
 class OpNode(Node):
 
-    def __init__(self, op, l, r):
-        self.op = op
-        self.l = l
-        self.r = r
+    def __init__(self, val, l, r):
+        super().__init__(val, l, r)
 
     def __str__(self):
-        return "(" + str(self.l) + " " + str(self.op) + " " + str(self.r) + ")"
+        return "(" + str(self.l) + " " + str(self.val) + " " + str(self.r) + ")"
 
     def eval(self):
-        if self.op == '+':
+        if self.val == '+':
             return self.l.eval() + self.r.eval()
-        elif self.op == '-':
+        elif self.val == '-':
             return self.l.eval() - self.r.eval()
-        elif self.op == '*':
+        elif self.val == '*':
             return self.l.eval() * self.r.eval()
-        elif self.op == '/':
-            try:
-                return self.l.eval() / self.r.eval()
-            except ZeroDivisionError:
-                raise
 
-
-class NullNode(Node):
-
-    def eval(self):
-        pass
+    def serialize(self):
+        return self.l.serialize() + [self] + self.r.serialize()
 
 
 class Tree:
@@ -58,7 +64,7 @@ class Tree:
     def __init__(self, depth, terminals):
         self.depth = depth
         self.terminals = terminals
-        self.ops = ['+', '-', '*', '/']
+        self.ops = ['+', '-', '*']
 
     def create_tree(self):
         def recursion(depth):
@@ -68,11 +74,3 @@ class Tree:
                 return NumNode(choice(self.terminals))
 
         return recursion(self.depth)
-
-if __name__ == '__main__':
-    terminals = [x+1 for x in range(10)]
-    depth = 3
-    tree = Tree(depth, terminals).create_tree()
-    print(tree)
-    print(tree.eval())
-
