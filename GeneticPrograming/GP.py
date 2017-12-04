@@ -4,16 +4,20 @@ import logging
 
 
 ###########
-# GLOBAL VARIABLES
+# GLOBAL VARIABLES THAT CAN BE MODIFIED
 ###########
 
-POPULATION = 20
-MAX_DEPTH = 5
-MUTATION_RATE = 0.1
-CROSSOVER_RATE = 0.8
-EXPECTED_VALUE = 87
-GENERATIONS = 200
-VALUES = [x+1 for x in range(9)]
+POPULATION = 20 # Size of the population
+MAX_DEPTH = 5 # Max depth of the trees
+MUTATION_RATE = 0.1 # Mutatation Rate
+CROSSOVER_RATE = 0.8 # Crossover Rate
+EXPECTED_VALUE = 87 # Number that we are trying to reach
+GENERATIONS = 200 # Number of generations
+VALUES = [x+1 for x in range(9)] # Values that we can use to reach our expected value
+
+#######
+# DO NOT TOUCH
+#######
 
 logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
