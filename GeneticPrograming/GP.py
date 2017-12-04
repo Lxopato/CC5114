@@ -58,11 +58,7 @@ def get_fitness(population):
     for individual in population:
         r = fitness_func(individual)
         r_fitness.append(r)
-        try:
-            fit = 1./r
-        except ZeroDivisionError:
-            raise
-        fitness.append(fit)
+        fitness.append(1./r)
     return fitness, r_fitness
 
 
